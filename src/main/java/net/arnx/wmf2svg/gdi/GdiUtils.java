@@ -20,7 +20,13 @@ public final class GdiUtils {
 		while (length < chars.length && chars[length] != 0) {
 			length++;
 		}
-		str = convertString(chars, 0, length, new String[]{"gb18030", "utf-8"});
+		String[] charsets = {};
+		if(length >= 3){
+			charsets = new String[]{"gb18030", "utf-8"};
+		}else if(length >= 2){
+			charsets = new String[]{"gb18030"};
+		}
+		str = convertString(chars, 0, length, charsets);
 		if(str != null){
 			return str;
 		}
