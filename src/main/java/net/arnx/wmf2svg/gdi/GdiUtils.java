@@ -3,6 +3,16 @@ package net.arnx.wmf2svg.gdi;
 import java.io.UnsupportedEncodingException;
 
 public final class GdiUtils {
+	public static String convertString(byte[] chars, int pos, int length, String[] charsets){
+		for (String charset: charsets){
+			try{
+				return new String(chars, pos, length, charset);
+			} catch (UnsupportedEncodingException e) {
+			}
+		}
+		return null;
+	}
+	
 	public static String convertString(byte[] chars, int charset) {
 		String str = null;
 
@@ -10,7 +20,10 @@ public final class GdiUtils {
 		while (length < chars.length && chars[length] != 0) {
 			length++;
 		}
-		
+		str = convertString(chars, 0, length, new String[]{"gb18030", "utf-8"});
+		if(str != null){
+			return str;
+		}
 		try {
 			str = new String(chars, 0, length, getCharset(charset));
 		} catch (UnsupportedEncodingException e) {
